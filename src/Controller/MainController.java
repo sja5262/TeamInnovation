@@ -29,7 +29,7 @@ public class MainController {
     @FXML
     protected void handleImportButtonAction(ActionEvent event) throws IOException {
         System.out.println("import");
-        app.getFile().importFile();
+        app.getFile().importText();
         inputText.setText("");
         inputText.setText(app.getFile().getFileContents());
         app.getFile().setFileContents("");
@@ -40,7 +40,13 @@ public class MainController {
         inputText.setText("");
     }
     
+    @FXML 
+    protected void handleOcrButtonAction(ActionEvent event) throws IOException {
+        System.out.println("OCR");
+        app.getFile().ocr();
+    }
     public void setUp(AppController app) {
         this.app = app;
     }
+    
 }
