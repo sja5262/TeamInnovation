@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import Model.Message;
+import Cipher.Caesar;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,29 +15,31 @@ import javafx.scene.control.TextField;
 public class MainController {
     
     AppController app;
-    @FXML private TextArea inputText;
-    @FXML private TextArea outputText;
+    @FXML private TextArea inputArea;
+    @FXML private TextArea outputArea;
+    private String outputText = "";
     //@FXML private TextField cipherValue;
-    Message m = new Message();
+    Caesar m = new Caesar();
 
     @FXML
     protected void handleDecryptButtonAction(ActionEvent event) throws IOException {
         System.out.println("decrypt");
-        outputText.setText(m.decryptCaesar(inputText.getText()));
+        outputText = m.decryptCaesar(inputArea.getText());
+        outputArea.setText(outputText);
     }
     
     @FXML
     protected void handleImportButtonAction(ActionEvent event) throws IOException {
         System.out.println("import");
         app.getFile().importText();
-        inputText.setText("");
-        inputText.setText(app.getFile().getFileContents());
+        clearText();
+        inputArea.setText(app.getFile().getFileContents());
         app.getFile().setFileContents("");
     }
     
     @FXML
     protected void handleClearButtonAction(ActionEvent event) throws IOException {
-        inputText.setText("");
+        clearText();
     }
     
     @FXML 
@@ -45,8 +47,23 @@ public class MainController {
         System.out.println("OCR");
         app.getFile().ocr();
     }
+    
+    @FXML
+    protected void handleSaveButtonAction(ActionEvent event) throws IOException {
+        System.out.println("save");
+        app.getFile().saveOutput();
+        
+    }
     public void setUp(AppController app) {
         this.app = app;
     }
     
+    public void clearText() {
+        inputArea.setText("");
+        outputArea.setText("");
+    }
+
+    public String getOutputText() {
+        return outputText;
+    }
 }
