@@ -20,9 +20,12 @@ public class AppController {
     Parent root;
     private MainController main;
     private FileController file;
+    private DatabaseController db;
     private Stage stage;
 
     public AppController(Stage stage) throws IOException {
+        this.db = new DatabaseController(this);
+        db.connect();
         this.file = new FileController(this);
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/MainView.fxml"));
