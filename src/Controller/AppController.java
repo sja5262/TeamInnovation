@@ -19,6 +19,7 @@ public class AppController {
 
     Parent root;
     private MainController main;
+    private LoginViewController loginView;
     private FileController file;
     private DatabaseController db;
     private Stage stage;
@@ -28,11 +29,22 @@ public class AppController {
         db.connect();
         this.file = new FileController(this);
         this.stage = stage;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/LoginView.fxml"));
+        root = loader.load();
+        loginView = (LoginViewController) loader.getController();
+        loginView.setUp(this);
+        stage.setTitle("Login");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    public void showMain() throws IOException {
+        stage.hide();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/MainView.fxml"));
         root = loader.load();
         main = (MainController) loader.getController();
         main.setUp(this);
-        stage.setTitle("TEST");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -60,5 +72,21 @@ public class AppController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public LoginViewController getLoginView() {
+        return loginView;
+    }
+
+    public void setLoginView(LoginViewController loginView) {
+        this.loginView = loginView;
+    }
+
+    public DatabaseController getDb() {
+        return db;
+    }
+
+    public void setDb(DatabaseController db) {
+        this.db = db;
     }
 }

@@ -54,6 +54,7 @@ public class FileController {
         }
     }
     
+    //Selects image file and then runs tesseract command to retrieve text
     public void ocr() throws IOException {
         imageFileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("PNG Images", "*.png"),
