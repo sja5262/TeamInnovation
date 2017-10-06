@@ -7,18 +7,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class LoginViewController implements Initializable {
 
     AppController app;
+    ResetPasswordViewController reset;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
     @FXML private Label invalidLabel;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       usernameField.requestFocus();
-       invalidLabel.setVisible(false);
+        
+        usernameField.requestFocus();
+        invalidLabel.setVisible(false);
     }    
     
 
@@ -35,7 +39,17 @@ public class LoginViewController implements Initializable {
         }
     }
     
+    @FXML
+    protected void handleResetButtonAction() throws IOException {
+        app.showReset();
+    }
     public void setUp(AppController app) {
         this.app = app;
+    }
+    
+    @FXML protected void handleKeyPressed(KeyEvent keyEvent) throws IOException {
+        if(keyEvent.getCode() == KeyCode.ENTER) {
+            handleLoginButtonAction();
+        } 
     }
 }

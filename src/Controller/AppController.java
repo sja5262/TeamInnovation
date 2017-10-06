@@ -19,7 +19,8 @@ public class AppController {
 
     Parent root;
     private MainController main;
-    private LoginViewController loginView;
+    private LoginViewController login;
+    private ResetPasswordViewController reset;
     private FileController file;
     private DatabaseController db;
     private Stage stage;
@@ -33,18 +34,20 @@ public class AppController {
     public AppController(Stage stage) throws IOException {
         this.db = new DatabaseController(this);
         db.connect();
-        this.file = new FileController(this);
+        this.file = new FileController(this); 
         this.stage = stage;
+        showLogin();
+    }
+    public final void showLogin() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/LoginView.fxml"));
         root = loader.load();
-        loginView = (LoginViewController) loader.getController();
-        loginView.setUp(this);
+        login = (LoginViewController) loader.getController();
+        login.setUp(this);
         stage.setTitle("Login");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-    
     /**
      * Upon successful authentication, the instance of the AppController object will
      * change the JavaFX stage from the login view to the main view
@@ -52,11 +55,20 @@ public class AppController {
      * be loaded
     **/
     public void showMain() throws IOException {
-        stage.hide();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/MainView.fxml"));
         root = loader.load();
         main = (MainController) loader.getController();
         main.setUp(this);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    public void showReset() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ResetPasswordView.fxml"));
+        root = loader.load();
+        reset = (ResetPasswordViewController) loader.getController();
+        reset.setUp(this);
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -87,11 +99,11 @@ public class AppController {
     }
 
     public LoginViewController getLoginView() {
-        return loginView;
+        return login;
     }
 
     public void setLoginView(LoginViewController loginView) {
-        this.loginView = loginView;
+        this.login = loginView;
     }
 
     public DatabaseController getDb() {
@@ -100,5 +112,13 @@ public class AppController {
 
     public void setDb(DatabaseController db) {
         this.db = db;
+    }
+
+    public ResetPasswordViewController getReset() {
+        return reset;
+    }
+
+    public void setReset(ResetPasswordViewController reset) {
+        this.reset = reset;
     }
 }
