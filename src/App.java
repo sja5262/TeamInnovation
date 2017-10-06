@@ -3,7 +3,7 @@ import Controller.AppController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class Decryption extends Application {
+public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {

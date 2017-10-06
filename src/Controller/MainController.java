@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Cipher.Caesar;
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -17,23 +13,22 @@ public class MainController {
     @FXML private TextArea inputArea;
     @FXML private TextArea outputArea;
     private String outputText = "";
-    //@FXML private TextField cipherValue;
     Caesar m = new Caesar();
+    private String currentUser;
+    private int currentUserID;
 
     @FXML
     protected void handleDecryptButtonAction(ActionEvent event) throws IOException {
-        System.out.println("decrypt");
         outputText = m.decryptCaesar(inputArea.getText());
         outputArea.setText(outputText);
     }
     
     @FXML
     protected void handleImportButtonAction(ActionEvent event) throws IOException {
-        System.out.println("import");
+        app.getFile().setFileContents("");
         app.getFile().importText();
         clearText();
         inputArea.setText(app.getFile().getFileContents());
-        app.getFile().setFileContents("");
     }
     
     @FXML
@@ -42,8 +37,8 @@ public class MainController {
     }
     
     @FXML 
-    protected void handleOcrButtonAction(ActionEvent event) throws IOException {
-        System.out.println("OCR");
+    protected void handleOcrButtonAction(ActionEvent event) throws IOException, SQLException {
+        app.getFile().setFileContents("");
         app.getFile().ocr();
     }
     
@@ -64,5 +59,21 @@ public class MainController {
 
     public String getOutputText() {
         return outputText;
+    }
+
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public int getCurrentUserID() {
+        return currentUserID;
+    }
+
+    public void setCurrentUserID(int currentUserID) {
+        this.currentUserID = currentUserID;
     }
 }

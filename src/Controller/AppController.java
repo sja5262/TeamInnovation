@@ -24,6 +24,12 @@ public class AppController {
     private DatabaseController db;
     private Stage stage;
 
+    /**
+     *Default constructor for the AppController
+     *@param stage Takes in the stage created in the Overidden start() method
+     *@throws java.io.IOException Throws error if the fxml file is unable to 
+     * be loaded
+    */
     public AppController(Stage stage) throws IOException {
         this.db = new DatabaseController(this);
         db.connect();
@@ -39,6 +45,12 @@ public class AppController {
         stage.show();
     }
     
+    /**
+     * Upon successful authentication, the instance of the AppController object will
+     * change the JavaFX stage from the login view to the main view
+     * @throws java.io.IOException Throws error if the MainView fxml doc cannot
+     * be loaded
+    **/
     public void showMain() throws IOException {
         stage.hide();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/MainView.fxml"));
