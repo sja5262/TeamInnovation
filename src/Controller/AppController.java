@@ -24,6 +24,8 @@ public class AppController {
     private FileController file;
     private DatabaseController db;
     private Stage stage;
+    private String currentUser;
+    private int currentUserID;
 
     /**
      *Default constructor for the AppController
@@ -59,6 +61,7 @@ public class AppController {
         root = loader.load();
         main = (MainController) loader.getController();
         main.setUp(this);
+        stage.setTitle("Nautilus ALPHA BUILD");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -120,5 +123,21 @@ public class AppController {
 
     public void setReset(ResetPasswordViewController reset) {
         this.reset = reset;
+    }
+    
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public int getCurrentUserID() {
+        return currentUserID;
+    }
+
+    public void setCurrentUserID(int currentUserID) {
+        this.currentUserID = currentUserID;
     }
 }

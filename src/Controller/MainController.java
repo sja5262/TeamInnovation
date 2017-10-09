@@ -14,9 +14,7 @@ public class MainController {
     @FXML private TextArea outputArea;
     private String outputText = "";
     Caesar m = new Caesar();
-    private String currentUser;
-    private int currentUserID;
-
+    
     @FXML
     protected void handleDecryptButtonAction(ActionEvent event) throws IOException {
         outputText = m.decryptCaesar(inputArea.getText());
@@ -59,21 +57,5 @@ public class MainController {
 
     public String getOutputText() {
         return outputText;
-    }
-
-    public String getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public int getCurrentUserID() {
-        return currentUserID;
-    }
-
-    public void setCurrentUserID(int currentUserID) {
-        this.currentUserID = currentUserID;
     }
 }
