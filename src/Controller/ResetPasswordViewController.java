@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,13 +46,16 @@ public class ResetPasswordViewController implements Initializable {
     }
     
     @FXML
-    protected void handleSubmitButtonAction() {
-        if (usernameField.getText().equals("testusername") 
-                && idField.getText().equals("1234")) {
+    protected void handleSubmitButtonAction() throws SQLException {  
+        if (app.getDb().isUserValid(usernameField.getText(), 
+                Integer.parseInt(idField.getText()))) {
             secondSection();
             userLabel.setText("Username/ID combination found");
             userLabel.setTextFill(Color.GREEN);
             userLabel.setVisible(true);
+            app.setCurrentUser(idField.getText());
+            //Set text of questionArea to the question stored within 
+            //current user's record
         } else {
             userLabel.setVisible(true);
         }
@@ -59,7 +63,7 @@ public class ResetPasswordViewController implements Initializable {
     
     @FXML
     protected void handleResponseButtonAction() {
-        if (responseField.getText().equals("test")) {
+        if (responseField.getText().equals("correct response")) {
             responseLabel.setText("Reponse verified");
             responseLabel.setTextFill(Color.GREEN);
             responseLabel.setVisible(true);
@@ -73,6 +77,7 @@ public class ResetPasswordViewController implements Initializable {
         if (passwordsMatch()) {
             matchLabel.setText("Password updated");
             matchLabel.setTextFill(Color.GREEN);
+            passwordSaved();
             //save new password to database
         } else {
             matchLabel.setVisible(true);
@@ -84,15 +89,17 @@ public class ResetPasswordViewController implements Initializable {
     }
     
     private void secondSection() {
+        usernameField.setOpacity(.25);
         usernameField.setFocusTraversable(false);
         usernameField.setEditable(false);
-        idField.setOpacity(25);
+        idField.setOpacity(.25);
         idField.setEditable(false);
         idField.setFocusTraversable(false);
-        submitButton.setOpacity(25);
+        userLabel.setOpacity(.5);
+        submitButton.setOpacity(.25);
         submitButton.setDisable(true);
-        questionArea.setOpacity(100);
-        responseField.setOpacity(100);
+        questionArea.setOpacity(1);
+        responseField.setOpacity(1);
         responseField.setEditable(true);
         responseField.setFocusTraversable(true);
         responseField.requestFocus();
@@ -101,9 +108,12 @@ public class ResetPasswordViewController implements Initializable {
     }
     
     private void thirdSection() {
+        questionArea.setOpacity(.25);
+        responseField.setOpacity(.25);
         responseField.setFocusTraversable(false);
         responseField.setEditable(false);
-        submitButton.setOpacity(25);
+        responseLabel.setOpacity(.5);
+        submitButton.setOpacity(.25);
         responseButton.setDisable(true);
         newLabel.setOpacity(100);
         newField.setOpacity(100);
@@ -118,15 +128,24 @@ public class ResetPasswordViewController implements Initializable {
         saveButton.setFocusTraversable(true);
     }
     
-    @FXML protected void handleKeyPressed (KeyEvent keyEvent) throws IOException {
+    private void passwordSaved() {
+        newField.setEditable(false);
+        newField.setOpacity(.25);
+        confirmField.setEditable(false);
+        confirmField.setOpacity(.25);
+        saveButton.setDisable(true);
+        matchLabel.setOpacity(.5);
+    }
+    
+    @FXML protected void handleKeyPressed (KeyEvent keyEvent) throws IOException, SQLException {
         if (keyEvent.getCode() == KeyCode.ENTER && 
-                (idField.isFocused() || submitButton.isFocused())) {
+                (usernameField.isFocused() || idField.isFocused() || submitButton.isFocused())) {
             handleSubmitButtonAction();
         } else if(keyEvent.getCode() == KeyCode.ENTER && 
                 (responseField.isFocused() || responseButton.isFocused())) {
             handleResponseButtonAction();
         } else if (keyEvent.getCode() == KeyCode.ENTER && 
-                (confirmField.isFocused() || saveButton.isFocused())) {
+                (newField.isFocused() || confirmField.isFocused() || saveButton.isFocused())) {
             handleSaveButtonAction();
         } else if (keyEvent.getCode() == KeyCode.ENTER && backButton.isFocused()) {
             handleBackButtonAction();
