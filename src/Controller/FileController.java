@@ -75,7 +75,7 @@ public class FileController {
         String fileName = "C:\\Users\\Jared\\Desktop\\OCR_" + df.format(date);
         String command = "tesseract " + file.getAbsolutePath() + " " + fileName;
         Process process = Runtime.getRuntime().exec(command);
-        app.getDb().ocrEntry(fileName, df.format(date), app.getCurrentUserID());
+        app.getDb().ocrEntry(fileName, df.format(date), app.getMain().getCurrentUserID());
     }
     
     
